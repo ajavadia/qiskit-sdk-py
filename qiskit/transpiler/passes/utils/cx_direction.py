@@ -19,7 +19,7 @@ from qiskit.transpiler.exceptions import TranspilerError
 
 from qiskit.circuit import QuantumRegister
 from qiskit.dagcircuit import DAGCircuit
-from qiskit.circuit.library.standard_gates import U2Gate, CXGate
+from qiskit.circuit.library.standard_gates import U2Gate, CXGate, ECRGate
 
 
 class CXDirection(TransformationPass):
@@ -65,9 +65,9 @@ class CXDirection(TransformationPass):
                                   'but input DAG had qregs: {}.'.format(
                                       dag.qregs))
 
-        for cnot_node in dag.named_nodes('cx', 'CX'):
-            control = cnot_node.qargs[0]
-            target = cnot_node.qargs[1]
+        for node in dag.two_qubit_ops():
+            control = node.qargs[0]
+            target = node.qargs[1]
 
             physical_q0 = control.index
             physical_q1 = target.index
@@ -77,24 +77,37 @@ class CXDirection(TransformationPass):
                                       'qubits %s and %s' % (physical_q0, physical_q1))
 
             if (physical_q0, physical_q1) not in cmap_edges:
-                # A flip needs to be done
-
                 # Create the replacement dag and associated register.
                 sub_dag = DAGCircuit()
                 sub_qr = QuantumRegister(2)
                 sub_dag.add_qreg(sub_qr)
 
-                # Add H gates before
-                sub_dag.apply_operation_back(U2Gate(0, pi), [sub_qr[0]], [])
-                sub_dag.apply_operation_back(U2Gate(0, pi), [sub_qr[1]], [])
+                if node.name == 'cx':
+                    """                  ┌───┐┌───┐┌───┐
+                    q_0: ──■──      q_0: ┤ H ├┤ X ├┤ H ├
+                         ┌─┴─┐  =        ├───┤└─┬─┘├───┤
+                    q_1: ┤ X ├      q_1: ┤ H ├──■──┤ H ├
+                         └───┘           └───┘     └───┘
+                    """
+                    sub_dag.apply_operation_back(U2Gate(0, pi), [sub_qr[0]], [])
+                    sub_dag.apply_operation_back(U2Gate(0, pi), [sub_qr[1]], [])
+                    sub_dag.apply_operation_back(CXGate(), [sub_qr[1], sub_qr[0]], [])
+                    sub_dag.apply_operation_back(U2Gate(0, pi), [sub_qr[0]], [])
+                    sub_dag.apply_operation_back(U2Gate(0, pi), [sub_qr[1]], [])
+                elif node.name == 'ecr':
+                    """
+                         ┌──────┐          ┌───────────┐┌──────┐┌───┐
+                    q_0: ┤0     ├     q_0: ┤ RY(-pi/2) ├┤1     ├┤ H ├
+                         │  ECR │  =       └┬──────────┤│  ECR │├───┤
+                    q_1: ┤1     ├     q_1: ─┤ RY(pi/2) ├┤0     ├┤ H ├
+                         └──────┘           └──────────┘└──────┘└───┘
+                    """
+                    sub_dag.apply_operation_back(U2Gate(pi, pi), [sub_qr[0]], [])
+                    sub_dag.apply_operation_back(U2Gate(0, 0), [sub_qr[1]], [])
+                    sub_dag.apply_operation_back(ECRGate(), [sub_qr[1], sub_qr[0]], [])
+                    sub_dag.apply_operation_back(U2Gate(0, pi), [sub_qr[0]], [])
+                    sub_dag.apply_operation_back(U2Gate(0, pi), [sub_qr[1]], [])
 
-                # Flips the cx
-                sub_dag.apply_operation_back(CXGate(), [sub_qr[1], sub_qr[0]], [])
-
-                # Add H gates after
-                sub_dag.apply_operation_back(U2Gate(0, pi), [sub_qr[0]], [])
-                sub_dag.apply_operation_back(U2Gate(0, pi), [sub_qr[1]], [])
-
-                dag.substitute_node_with_dag(cnot_node, sub_dag)
+                dag.substitute_node_with_dag(node, sub_dag)
 
         return dag

@@ -51,7 +51,6 @@ class CheckCXDirection(AnalysisPass):
             physical_q0 = gate.qargs[0].index
             physical_q1 = gate.qargs[1].index
 
-            if isinstance(gate.op, CXGate) and (
-                    physical_q0, physical_q1) not in edges:
+            if (physical_q0, physical_q1) not in edges:
                 self.property_set['is_direction_mapped'] = False
                 return
