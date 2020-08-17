@@ -381,6 +381,9 @@ class MatplotlibDrawer:
                              zorder=PORDER_TEXT, wrap=True)
 
     def _gate(self, xy, fc=None, ec=None, gt=None, sc=None, text='', subtext=''):
+        if fc=='#002D9C' or fc=='#9F1853':
+            gt = '#FFFFFF'
+            sc = '#FFFFFF'            
         xpos, ypos = xy
 
         text_width = self._get_text_width(text, self._style.fs)

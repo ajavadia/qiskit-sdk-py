@@ -167,7 +167,7 @@ class QiskitTimelineStyle:
     #################################
 
     # vertical canvas size per register in units of inch
-    canvas_inch_per_unit_v = 15
+    canvas_inch_per_unit_v = 8
 
     # horizontal canvas size per dt in units of inch
     canvas_inch_per_unit_h = 0.06

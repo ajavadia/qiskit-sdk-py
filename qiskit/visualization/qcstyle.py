@@ -30,6 +30,12 @@ class DefaultStyle:
         other_color = '#BB8BFF'     # Purple
         pauli_color = '#05BAB6'     # Green
         iden_color = '#05BAB6'      # Green
+        classical = '#002D9C'       # Dark Blue
+        phase = '#33B1FF'           # Light Blue
+        hadamard = '#FA4D56'        # Orange
+        quantum = '#9F1853'         # Dark Red
+        other = '#9F1853'           # Dark Red
+        nonunitary = '#A8A8A8'      # Grey
 
         self.name = 'iqx'
         self.tc = '#000000'
@@ -110,6 +116,48 @@ class DefaultStyle:
             'multi': other_color,
             'meas': non_gate_color,
             'measure': non_gate_color
+        }
+        self.dispcol = {
+            'u': quantum,
+            'p': phase,
+            'x': classical,
+            'xp': classical,
+            'xm': classical,
+            'y': quantum,
+            'z': phase,
+            'h': hadamard,
+            'cx': classical,
+            'cy': quantum,
+            'cz': quantum,
+            'swap': classical,
+            's': phase,
+            'sdg': phase,
+            'sx': hadamard,
+            'sxdg': hadamard,
+            'dcx': classical,
+            'iswap': quantum,
+            't': phase,
+            'tdg': phase,
+            'r': other,
+            'rx': hadamard,
+            'ry': hadamard,
+            'rz': phase,
+            'rxx': other,
+            'ryy': other,
+            'rzx': other,
+            'reset': nonunitary,
+            'target': '#ffffff',
+            'multi': other,
+            'meas': nonunitary,
+            'measure': nonunitary
+        }
+        self.textcol = {
+            classical: '#ffffff',
+            phase: '#000000',
+            nonunitary: '#000000',
+            hadamard: '#ffffff',
+            quantum: '#000000',
+            other: '#000000',
         }
         self.latexmode = False
         self.index = False
