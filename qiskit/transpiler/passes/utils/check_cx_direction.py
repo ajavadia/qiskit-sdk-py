@@ -48,7 +48,6 @@ class CheckCXDirection(AnalysisPass):
         """
         self.property_set['is_direction_mapped'] = True
         edges = self.coupling_map.get_edges()
-
         for gate in dag.two_qubit_ops():
             physical_q0 = gate.qargs[0].index
             physical_q1 = gate.qargs[1].index
