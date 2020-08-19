@@ -119,6 +119,9 @@ class DefaultStyle:
         }
         self.dispcol = {
             'u': quantum,
+            'u3': quantum,
+            'u2': quantum,
+            'u1': phase,
             'p': phase,
             'x': classical,
             'xp': classical,

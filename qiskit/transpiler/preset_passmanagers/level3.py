@@ -218,7 +218,7 @@ def level_3_pass_manager(pass_manager_config: PassManagerConfig) -> PassManager:
     if coupling_map and not coupling_map.is_symmetric:
         pm3.append(_direction_check)
         pm3.append(_direction, condition=_direction_condition)
-    #pm3.append([Optimize1qGates(basis_gates), SimplifyU3()])
+    pm3.append([Optimize1qGates(basis_gates), SimplifyU3()])
     if scheduling_method:
         pm3.append(_scheduling)
     if dd_sequence:
