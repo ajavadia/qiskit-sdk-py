@@ -205,6 +205,15 @@ class TwoQubitWeylDecomposition:
         K1l, K1r = decompose_two_qubit_product_gate(K1)
         K2l, K2r = decompose_two_qubit_product_gate(K2)
 
+        K1l.real[abs(K1l.real) < eps] = 0.0
+        K1l.imag[abs(K1l.imag) < eps] = 0.0
+        K1r.real[abs(K1r.real) < eps] = 0.0
+        K1r.imag[abs(K1r.imag) < eps] = 0.0
+        K2l.real[abs(K2l.real) < eps] = 0.0
+        K2l.imag[abs(K2l.imag) < eps] = 0.0
+        K2r.real[abs(K2r.real) < eps] = 0.0
+        K2r.imag[abs(K2r.imag) < eps] = 0.0
+
         K1l = K1l.copy()
 
         # Flip into Weyl chamber
