@@ -255,6 +255,14 @@ class TwoQubitWeylDecomposition:
         self.K1r = K1r
         self.K2l = K2l
         self.K2r = K2r
+        print('K1l')
+        print(K1l)
+        print('K1r')
+        print(K1r)
+        print('K2l')
+        print(K2l)
+        print('K2r')
+        print(K2r)
 
     def __repr__(self):
         # FIXME: this is worth making prettier since it's very useful for debugging
@@ -343,6 +351,33 @@ class TwoQubitBasisDecomposer():
         k1rd = basis.K1r.T.conj()
         k2ld = basis.K2l.T.conj()
         k2rd = basis.K2r.T.conj()
+        print('k1ld')
+        print(k1ld)
+        print('k1rd')
+        print(k1rd)
+        print('k2ld')
+        print(k2ld)
+        print('k2rd')
+        print(k2rd)
+
+        print('K31l')
+        print(K31l)
+        print('K31r')
+        print(K31r)
+        print('K32lK21l')
+        print(K32lK21l)
+        print('K32r')
+        print(K32r)
+        print('K22l')
+        print(K22l)
+        print('K22r')
+        print(K22r)
+        print('K21r')
+        print(K21r)
+        print('K12l')
+        print(K12l)
+        print('K12r')
+        print(K12r)
 
         # Pre-build the fixed parts of the matrices used in 3-part decomposition
         self.u0l = K31l.dot(k1ld)
@@ -448,7 +483,7 @@ class TwoQubitBasisDecomposer():
 
         return U2r, U2l, U1r, U1l, U0r, U0l
 
-    def decomp3_supercontrolled(self, target):
+    def decomp3_supercontrolled(self, target, eps=1e-15):
         """Decompose target with 3 uses of the basis.
         This is an exact decomposition for supercontrolled basis ~Ud(pi/4, b, 0), all b,
         and any target. No guarantees for non-supercontrolled basis."""
@@ -461,6 +496,23 @@ class TwoQubitBasisDecomposer():
         U2r = self.u2ra.dot(rz_array(2*target.b)).dot(self.u2rb)
         U3l = self.u3l.dot(target.K2l)
         U3r = self.u3r.dot(target.K2r)
+
+        U0l.real[abs(U0l.real) < eps] = 0.0
+        U0l.imag[abs(U0l.imag) < eps] = 0.0
+        U0r.real[abs(U0r.real) < eps] = 0.0
+        U0r.imag[abs(U0r.imag) < eps] = 0.0
+        U1l.real[abs(U1l.real) < eps] = 0.0
+        U1l.imag[abs(U1l.imag) < eps] = 0.0
+        U1r.real[abs(U1r.real) < eps] = 0.0
+        U1r.imag[abs(U1r.imag) < eps] = 0.0
+        U2l.real[abs(U2l.real) < eps] = 0.0
+        U2l.imag[abs(U2l.imag) < eps] = 0.0
+        U2r.real[abs(U2r.real) < eps] = 0.0
+        U2r.imag[abs(U2r.imag) < eps] = 0.0
+        U3l.real[abs(U3l.real) < eps] = 0.0
+        U3l.imag[abs(U3l.imag) < eps] = 0.0
+        U3r.real[abs(U3r.real) < eps] = 0.0
+        U3r.imag[abs(U3r.imag) < eps] = 0.0
 
         return U3r, U3l, U2r, U2l, U1r, U1l, U0r, U0l
 
