@@ -171,7 +171,7 @@ class TwoQubitWeylDecomposition:
         for i in range(100):  # FIXME: this randomized algorithm is horrendous
             state = np.random.default_rng(i)
             M2real = state.normal()*M2.real + state.normal()*M2.imag
-            _, P = la.eigh(M2real)
+            _, P = np.linalg.eigh(M2real)
             D = P.T.dot(M2).dot(P).diagonal()
             if np.allclose(P.dot(np.diag(D)).dot(P.T), M2, rtol=1.0e-13, atol=1.0e-13):
                 break
@@ -255,14 +255,6 @@ class TwoQubitWeylDecomposition:
         self.K1r = K1r
         self.K2l = K2l
         self.K2r = K2r
-        print('K1l')
-        print(K1l)
-        print('K1r')
-        print(K1r)
-        print('K2l')
-        print(K2l)
-        print('K2r')
-        print(K2r)
 
     def __repr__(self):
         # FIXME: this is worth making prettier since it's very useful for debugging
@@ -351,33 +343,6 @@ class TwoQubitBasisDecomposer():
         k1rd = basis.K1r.T.conj()
         k2ld = basis.K2l.T.conj()
         k2rd = basis.K2r.T.conj()
-        print('k1ld')
-        print(k1ld)
-        print('k1rd')
-        print(k1rd)
-        print('k2ld')
-        print(k2ld)
-        print('k2rd')
-        print(k2rd)
-
-        print('K31l')
-        print(K31l)
-        print('K31r')
-        print(K31r)
-        print('K32lK21l')
-        print(K32lK21l)
-        print('K32r')
-        print(K32r)
-        print('K22l')
-        print(K22l)
-        print('K22r')
-        print(K22r)
-        print('K21r')
-        print(K21r)
-        print('K12l')
-        print(K12l)
-        print('K12r')
-        print(K12r)
 
         # Pre-build the fixed parts of the matrices used in 3-part decomposition
         self.u0l = K31l.dot(k1ld)
