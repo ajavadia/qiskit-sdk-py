@@ -148,8 +148,8 @@ class RZXGate(Gate):
         """Return a numpy.array for the RZX gate."""
         import numpy
         half_theta = self.params[0] / 2
-        cos = numpy.cos(half_theta)
-        isin = 1j * numpy.sin(half_theta)
+        cos = numpy.cos(float(half_theta))
+        isin = 1j * numpy.sin(float(half_theta))
         return numpy.array([[cos, 0, -isin, 0],
                             [0, cos, 0, isin],
                             [-isin, 0, cos, 0],

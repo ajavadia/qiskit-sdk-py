@@ -105,7 +105,7 @@ class SdgGate(Gate):
 
     def __init__(self, label=None):
         """Create new Sdg gate."""
-        super().__init__('sdg', 1, [], label=label)
+        super().__init__('sdg', 1, [], label='S†')
 
     def _define(self):
         """

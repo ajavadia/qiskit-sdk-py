@@ -111,7 +111,7 @@ class SXdgGate(Gate):
                     = e^{-i pi/4} \sqrt{X}^{\dagger}
     """
 
-    def __init__(self, label='√X^†'):
+    def __init__(self, label='√X†'):
         """Create new SXdg gate."""
         super().__init__('sxdg', 1, [], label=label)
 

@@ -196,23 +196,10 @@ class TwoQubitWeylDecomposition:
 
         # Find K1, K2 so that U = K1.A.K2, with K being product of single-qubit unitaries
         K1 = _B.dot(Up).dot(P).dot(np.diag(np.exp(1j*d))).dot(_Bd)
-        K1.real[abs(K1.real) < eps] = 0.0
-        K1.imag[abs(K1.imag) < eps] = 0.0        
         K2 = _B.dot(P.T).dot(_Bd)
-        K2.real[abs(K2.real) < eps] = 0.0
-        K2.imag[abs(K2.imag) < eps] = 0.0
 
         K1l, K1r = decompose_two_qubit_product_gate(K1)
         K2l, K2r = decompose_two_qubit_product_gate(K2)
-
-        K1l.real[abs(K1l.real) < eps] = 0.0
-        K1l.imag[abs(K1l.imag) < eps] = 0.0
-        K1r.real[abs(K1r.real) < eps] = 0.0
-        K1r.imag[abs(K1r.imag) < eps] = 0.0
-        K2l.real[abs(K2l.real) < eps] = 0.0
-        K2l.imag[abs(K2l.imag) < eps] = 0.0
-        K2r.real[abs(K2r.real) < eps] = 0.0
-        K2r.imag[abs(K2r.imag) < eps] = 0.0
 
         K1l = K1l.copy()
 
@@ -461,23 +448,6 @@ class TwoQubitBasisDecomposer():
         U2r = self.u2ra.dot(rz_array(2*target.b)).dot(self.u2rb)
         U3l = self.u3l.dot(target.K2l)
         U3r = self.u3r.dot(target.K2r)
-
-        U0l.real[abs(U0l.real) < eps] = 0.0
-        U0l.imag[abs(U0l.imag) < eps] = 0.0
-        U0r.real[abs(U0r.real) < eps] = 0.0
-        U0r.imag[abs(U0r.imag) < eps] = 0.0
-        U1l.real[abs(U1l.real) < eps] = 0.0
-        U1l.imag[abs(U1l.imag) < eps] = 0.0
-        U1r.real[abs(U1r.real) < eps] = 0.0
-        U1r.imag[abs(U1r.imag) < eps] = 0.0
-        U2l.real[abs(U2l.real) < eps] = 0.0
-        U2l.imag[abs(U2l.imag) < eps] = 0.0
-        U2r.real[abs(U2r.real) < eps] = 0.0
-        U2r.imag[abs(U2r.imag) < eps] = 0.0
-        U3l.real[abs(U3l.real) < eps] = 0.0
-        U3l.imag[abs(U3l.imag) < eps] = 0.0
-        U3r.real[abs(U3r.real) < eps] = 0.0
-        U3r.imag[abs(U3r.imag) < eps] = 0.0
 
         return U3r, U3l, U2r, U2l, U1r, U1l, U0r, U0l
 
