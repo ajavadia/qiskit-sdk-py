@@ -137,7 +137,15 @@ class UnitarySynthesis(TransformationPass):
                 natural_direction = None
                 physical_gate_fidelity = None
                 layout = self.property_set['layout']
-                if layout and self._backend_props:
+                if layout and self._coupling_map:
+                    zero_one = node.qargs[1].index in self._coupling_map.neighbors(node.qargs[0].index)
+                    one_zero = node.qargs[0].index in self._coupling_map.neighbors(node.qargs[1].index)
+                    if zero_one and not one_zero:
+                        natural_direction = [0, 1]
+                    if one_zero and not zero_one:
+                        natural_direction = [1, 0]
+
+                elif layout and self._backend_props:
                     len_0_1 = inf
                     len_1_0 = inf
                     try:
@@ -158,14 +166,6 @@ class UnitarySynthesis(TransformationPass):
                     if natural_direction:
                         physical_gate_fidelity = 1 - self._backend_props.gate_error(
                                 'cx', [node.qargs[i].index for i in natural_direction])
-
-                elif layout and self._coupling_map:
-                    zero_one = node.qargs[1].index in self._coupling_map.neighbors(node.qargs[0].index)
-                    one_zero = node.qargs[0].index in self._coupling_map.neighbors(node.qargs[1].index)
-                    if zero_one and not one_zero:
-                        natural_direction = [0, 1]
-                    if one_zero and not zero_one:
-                        natural_direction = [1, 0]
 
                 basis_fidelity = self._fidelity or physical_gate_fidelity
                 su4_mat = node.op.to_matrix()
