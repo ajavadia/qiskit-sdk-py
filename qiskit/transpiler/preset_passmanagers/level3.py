@@ -55,6 +55,7 @@ from qiskit.transpiler.passes import CheckCXDirection
 from qiskit.transpiler.passes import TimeUnitAnalysis
 from qiskit.transpiler.passes import ALAPSchedule
 from qiskit.transpiler.passes import ASAPSchedule
+from qiskit.transpiler.passes import InsertDD
 
 from qiskit.transpiler import TranspilerError
 
@@ -96,6 +97,7 @@ def level_3_pass_manager(pass_manager_config: PassManagerConfig) -> PassManager:
     instruction_durations = pass_manager_config.instruction_durations
     seed_transpiler = pass_manager_config.seed_transpiler
     backend_properties = pass_manager_config.backend_properties
+    dd_sequence = pass_manager_config.dd_sequence
 
     # 1. Unroll to 1q or 2q gates
     _unroll3q = Unroll3qOrMore()
@@ -203,6 +205,10 @@ def level_3_pass_manager(pass_manager_config: PassManagerConfig) -> PassManager:
         else:
             raise TranspilerError("Invalid scheduling method %s." % scheduling_method)
 
+
+    # Dynamical decoupling via insertion of a gate sequence in idle spots
+    _insert_dd = InsertDD(instruction_durations, dd_sequence)
+
     # Build pass manager
     pm3 = PassManager()
     pm3.append(_unroll3q)
@@ -222,5 +228,7 @@ def level_3_pass_manager(pass_manager_config: PassManagerConfig) -> PassManager:
     pm3.append(_reset)
     if scheduling_method:
         pm3.append(_scheduling)
+    if dd_sequence:
+        pm3.append(_insert_dd)
 
     return pm3

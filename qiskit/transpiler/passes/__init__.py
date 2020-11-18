@@ -84,6 +84,12 @@ Scheduling
    ALAPSchedule
    ASAPSchedule
 
+Decoupling
+=============
+.. autosummary::
+   :toctree: ../stubs/
+   InsertDD
+
 Circuit Analysis
 ================
 
@@ -180,6 +186,9 @@ from .synthesis import UnitarySynthesis
 from .scheduling import ALAPSchedule
 from .scheduling import ASAPSchedule
 from .scheduling import TimeUnitAnalysis
+
+# dynamical decoupling
+from .decoupling import InsertDD
 
 # additional utility passes
 from .utils import CheckMap

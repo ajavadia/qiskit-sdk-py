@@ -19,7 +19,22 @@ from numpy.random import default_rng
 from .clifford import Clifford
 from .stabilizer_table import StabilizerTable
 from .pauli_table import PauliTable
+from ..pauli import Pauli
 
+
+def random_pauli(num_qubits, seed=None):
+    """Return a random Pauli on number of qubits.
+
+    Args:
+        num_qubits (int): the number of qubits
+        seed (int): Optional. To set a random seed.
+    Returns:
+        Pauli: the random pauli
+    """
+    rng = np.random.default_rng(seed)
+    z = rng.integers(2, size=num_qubits).astype(np.bool)
+    x = rng.integers(2, size=num_qubits).astype(np.bool)
+    return Pauli(z, x)
 
 def random_pauli_table(num_qubits, size=1, seed=None):
     """Return a random PauliTable.

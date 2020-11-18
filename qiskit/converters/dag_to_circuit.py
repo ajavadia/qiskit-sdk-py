@@ -58,4 +58,6 @@ def dag_to_circuit(dag):
 
     circuit.duration = dag.duration
     circuit.unit = dag.unit
+    circuit.qubit_time_available = dag.qubit_time_available
+
     return circuit

@@ -96,6 +96,7 @@ class DAGCircuit:
 
         self.duration = None
         self.unit = 'dt'
+        self.qubit_time_available = None
 
     def to_networkx(self):
         """Returns a copy of the DAGCircuit in networkx format."""

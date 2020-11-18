@@ -17,6 +17,7 @@ from qiskit.quantum_info.operators.random import (random_unitary,
                                                   random_quantum_channel,
                                                   random_hermitian,
                                                   random_clifford,
+                                                  random_pauli,
                                                   random_pauli_table,
                                                   random_stabilizer_table)
 

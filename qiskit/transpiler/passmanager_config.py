@@ -27,6 +27,7 @@ class PassManagerConfig:
                  scheduling_method=None,
                  instruction_durations=None,
                  backend_properties=None,
+                 dd_sequence=None,
                  seed_transpiler=None):
         """Initialize a PassManagerConfig object
 
@@ -48,6 +49,7 @@ class PassManagerConfig:
             backend_properties (BackendProperties): Properties returned by a
                 backend, including information on gate errors, readout errors,
                 qubit coherence times, etc.
+            dd_sequence (list[str]): dynamical decoupling via insertion in idle spots.
             seed_transpiler (int): Sets random seed for the stochastic parts of
                 the transpiler.
         """
@@ -60,4 +62,5 @@ class PassManagerConfig:
         self.scheduling_method = scheduling_method
         self.instruction_durations = instruction_durations
         self.backend_properties = backend_properties
+        self.dd_sequence = dd_sequence
         self.seed_transpiler = seed_transpiler

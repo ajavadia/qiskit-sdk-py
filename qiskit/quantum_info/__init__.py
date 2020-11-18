@@ -95,6 +95,7 @@ Random
    random_pauli_table
    random_stabilizer_table
    random_state
+   random_pauli
 
 Analysis
 =========
@@ -137,7 +138,7 @@ from .random import (random_quantum_channel, random_unitary,
                      random_clifford, random_pauli_table,
                      random_stabilizer_table,
                      random_hermitian, random_statevector,
-                     random_density_matrix, random_state)
+                     random_density_matrix, random_state, random_pauli)
 
 from .synthesis import (OneQubitEulerDecomposer, TwoQubitBasisDecomposer,
                         two_qubit_cnot_decompose, euler_angles_1q)

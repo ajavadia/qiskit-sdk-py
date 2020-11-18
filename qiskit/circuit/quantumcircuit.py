@@ -189,6 +189,7 @@ class QuantumCircuit:
 
         self.duration = None
         self.unit = 'dt'
+        self.qubit_time_available = None
 
     @property
     def data(self):
