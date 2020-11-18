@@ -136,6 +136,7 @@ class UnitarySynthesis(TransformationPass):
                 # if unitary is on physical qubits, expand in natural gate direction.
                 natural_direction = None
                 physical_gate_fidelity = None
+                physical_gate_duration = None
                 layout = self.property_set['layout']
                 if layout and self._coupling_map:
                     zero_one = node.qargs[1].index in self._coupling_map.neighbors(node.qargs[0].index)
@@ -165,6 +166,8 @@ class UnitarySynthesis(TransformationPass):
                         natural_direction = [1, 0]
                     if natural_direction:
                         physical_gate_fidelity = 1 - self._backend_props.gate_error(
+                                'cx', [node.qargs[i].index for i in natural_direction])
+                        physical_gate_duration = self._backend_props.gate_length(
                                 'cx', [node.qargs[i].index for i in natural_direction])
 
                 basis_fidelity = self._fidelity or physical_gate_fidelity
