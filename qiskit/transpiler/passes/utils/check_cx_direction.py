@@ -13,7 +13,6 @@
 """Check if the CNOTs follow the right direction with respect to the coupling map."""
 
 from qiskit.transpiler.basepasses import AnalysisPass
-from qiskit.circuit.library.standard_gates.x import CXGate
 
 
 class CheckCXDirection(AnalysisPass):
