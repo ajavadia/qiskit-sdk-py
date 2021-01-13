@@ -56,7 +56,6 @@ from qiskit.transpiler.passes import CheckCXDirection
 from qiskit.transpiler.passes import SimplifyU3
 from qiskit.transpiler.passes import InsertDD
 from qiskit.transpiler.passes.optimization.purestate import ConstantsStateOptimization, PureStateOnU
-
 from qiskit.transpiler import TranspilerError
 
 
@@ -186,6 +185,7 @@ def level_rpo_pass_manager(pass_manager_config: PassManagerConfig) -> PassManage
         Optimize1qGates(basis_gates),
         SimplifyU3(),
         CommutativeCancellation(),
+        ConstantsStateOptimization()
     ]
 
     # Schedule the circuit only when scheduling_method is supplied
@@ -216,10 +216,13 @@ def level_rpo_pass_manager(pass_manager_config: PassManagerConfig) -> PassManage
         pm3.append(_embed)
         pm3.append(_swap_check)
         pm3.append(_swap, condition=_swap_condition)
-    pm3.append(ConstantsStateOptimization())
-    pm3.append([Unroller(basis_gates+['swap', 'aswap', 'annotation']),
-                Optimize1qGates(), PureStateOnU()])
+
+    pm3.append(_unroll3q)
+    pm3.append(_opt)
+    pm3.append(PureStateOnU())
+    pm3.append(_unroll)
     pm3.append(_depth_check + _opt + _unroll, do_while=_opt_control)
+
     if coupling_map and not coupling_map.is_symmetric:
         pm3.append(_direction_check)
         pm3.append(_direction, condition=_direction_condition)
