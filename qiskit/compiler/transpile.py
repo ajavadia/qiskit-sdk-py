@@ -37,6 +37,8 @@ from qiskit.transpiler.preset_passmanagers import (level_0_pass_manager,
                                                    level_1_pass_manager,
                                                    level_2_pass_manager,
                                                    level_3_pass_manager)
+from qiskit.transpiler.preset_passmanagers.rpo import level_rpo_pass_manager
+
 
 LOG = logging.getLogger(__name__)
 
@@ -356,6 +358,8 @@ def _transpile_circuit(circuit_config_tuple: Tuple[QuantumCircuit, Dict]) -> Qua
         pass_manager = level_2_pass_manager(pass_manager_config)
     elif level == 3:
         pass_manager = level_3_pass_manager(pass_manager_config)
+    elif level == 'rpo':
+        pass_manager = level_rpo_pass_manager(pass_manager_config)
     else:
         raise TranspilerError("optimization_level can range from 0 to 3.")
 
