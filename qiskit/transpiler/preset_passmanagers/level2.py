@@ -206,6 +206,7 @@ def level_2_pass_manager(pass_manager_config: PassManagerConfig) -> PassManager:
     if coupling_map and not coupling_map.is_symmetric:
         pm2.append(_direction_check)
         pm2.append(_direction, condition=_direction_condition)
+        pm2.append(_unroll)
     pm2.append(_reset)
     pm2.append(_depth_check + _opt, do_while=_opt_control)
     if scheduling_method:
