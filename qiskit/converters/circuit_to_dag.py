@@ -57,6 +57,6 @@ def circuit_to_dag(circuit):
     for instruction, qargs, cargs in circuit.data:
         dagcircuit.apply_operation_back(instruction.copy(), qargs, cargs)
 
-    dagcircuit.duration = circuit.duration
-    dagcircuit.qubit_time_available = circuit.qubit_time_available
+    dagcircuit.duration = getattr(circuit, 'duration', None)
+    dagcircuit.qubit_time_available = getattr(circuit, 'qubit_time_available', None)
     return dagcircuit
